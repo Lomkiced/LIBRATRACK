@@ -59,8 +59,8 @@ export function AppSidebar() {
             <BookOpen className="size-6" />
           </div>
           <div className="flex flex-col gap-1 leading-none">
-            <span className="font-bold text-xl tracking-tight text-foreground">LIBRATRACK</span>
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Admin Portal</span>
+            <span className="font-bold text-xl tracking-tight text-sidebar-foreground">LIBRATRACK</span>
+            <span className="text-xs font-medium text-sidebar-foreground/70 uppercase tracking-wider">Admin Portal</span>
           </div>
         </div>
       </SidebarHeader>
@@ -77,13 +77,13 @@ export function AppSidebar() {
                       render={<Link href={href} />} 
                       isActive={isActive} 
                       tooltip={label}
-                      className={`h-12 px-4 gap-4 transition-all duration-200 group ${
+                      className={`h-12 px-4 gap-4 transition-all duration-200 ease-in-out group border-l-4 ${
                         isActive 
-                          ? "bg-primary/10 text-primary font-semibold border-l-4 border-primary rounded-r-lg rounded-l-none shadow-sm" 
-                          : "text-muted-foreground hover:bg-sidebar-accent hover:text-foreground font-medium rounded-lg"
+                          ? "bg-primary/10 text-primary font-semibold border-primary rounded-r-md rounded-l-none shadow-sm" 
+                          : "border-transparent text-muted-foreground hover:bg-primary/5 hover:text-primary font-medium rounded-lg"
                       }`}
                     >
-                      <Icon className={`size-5 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground transition-colors"}`} />
+                      <Icon className="size-5 transition-colors" />
                       <span className="text-base">{label}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -112,10 +112,10 @@ export function AppSidebar() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-bold text-foreground">Administrator</span>
-                  <span className="truncate text-xs font-medium text-muted-foreground">admin@example.com</span>
+                  <span className="truncate font-bold text-sidebar-foreground">Administrator</span>
+                  <span className="truncate text-xs font-medium text-sidebar-foreground/70">admin@example.com</span>
                 </div>
-                <ChevronsUpDown className="ml-auto size-4 text-muted-foreground" />
+                <ChevronsUpDown className="ml-auto size-4 text-sidebar-foreground/70" />
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-64 rounded-xl border-border/50 shadow-xl"
