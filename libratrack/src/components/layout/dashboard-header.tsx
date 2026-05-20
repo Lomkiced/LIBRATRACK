@@ -1,8 +1,19 @@
 "use client";
 
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { logout } from "@/app/(auth)/login/actions";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface DashboardHeaderProps {
   title?: string;
@@ -11,10 +22,13 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ title }: DashboardHeaderProps) {
   return (
     <header className="flex items-center justify-between w-full h-full">
-      {/* Page Title */}
-      {title && (
-        <span className="text-sm font-medium text-muted-foreground">{title}</span>
-      )}
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="-ml-2" />
+        {/* Page Title */}
+        {title && (
+          <span className="text-sm font-medium text-muted-foreground hidden sm:block">{title}</span>
+        )}
+      </div>
 
       {/* Search + Actions */}
       <div className="flex items-center gap-3 ml-auto">
@@ -24,13 +38,40 @@ export function DashboardHeader({ title }: DashboardHeaderProps) {
             id="header-search"
             type="search"
             placeholder="Search books..."
-            className="pl-9 w-56"
+            className="pl-9 w-56 h-9"
             aria-label="Search books"
           />
         </div>
-        <Button variant="ghost" size="icon" aria-label="Notifications">
+        <Button variant="ghost" size="icon" aria-label="Notifications" className="h-9 w-9">
           <Bell className="h-4 w-4" />
         </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <Button variant="ghost" className="relative h-9 w-9 rounded-full ml-1" aria-label="User menu" />
+            }
+          >
+            <Avatar className="h-9 w-9">
+              <AvatarFallback className="bg-primary/10 text-primary">
+                <User className="h-4 w-4" />
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end">
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">Administrator</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  LIBRATRACK Admin
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

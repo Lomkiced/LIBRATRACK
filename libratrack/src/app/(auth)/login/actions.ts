@@ -43,3 +43,12 @@ export async function login(
   // Session cookies are set by the Supabase SSR client automatically.
   redirect("/dashboard");
 }
+
+/**
+ * Server Action: Signs out the user and redirects to /login.
+ */
+export async function logout() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
+}

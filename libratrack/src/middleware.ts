@@ -47,6 +47,13 @@ export async function middleware(request: NextRequest) {
   // Route Protection Rules
   // ------------------------------------------------------------------
 
+  // Rule 0: Redirect root to /dashboard
+  if (pathname === "/") {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/dashboard";
+    return NextResponse.redirect(redirectUrl);
+  }
+
   // Rule 1: Unauthenticated user → accessing any /dashboard route → send to /login
   if (!user && pathname.startsWith("/dashboard")) {
     const redirectUrl = request.nextUrl.clone();
