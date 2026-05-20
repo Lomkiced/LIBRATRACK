@@ -1,5 +1,6 @@
 "use client";
 
+import { useTransition } from "react";
 import { Bell, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { logout } from "@/app/(auth)/login/actions";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -20,6 +22,8 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ title }: DashboardHeaderProps) {
+  const [isPending, startTransition] = useTransition();
+
   return (
     <header className="flex items-center justify-between w-full h-full">
       <div className="flex items-center gap-4">
@@ -58,17 +62,28 @@ export function DashboardHeader({ title }: DashboardHeaderProps) {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">Administrator</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  LIBRATRACK Admin
-                </p>
-              </div>
-            </DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">Administrator</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    LIBRATRACK Admin
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
-              Log out
+            <DropdownMenuItem 
+              className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer w-full"
+              disabled={isPending}
+              onClick={(e) => {
+                e.preventDefault(); // Prevent menu from closing immediately if we want to show loading state
+                startTransition(async () => {
+                  await logout();
+                });
+              }}
+            >
+              {isPending ? "Logging out..." : "Log out"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
